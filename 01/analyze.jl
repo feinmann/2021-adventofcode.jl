@@ -1,7 +1,7 @@
 using DataFrames
 using CSV
 
-df = CSV.read("input.txt", DataFrame; header = false)
+df = CSV.read("01/input.txt", DataFrame; header = false)
 
 # Count how often a value is higher than preceeding value
 count = 0
