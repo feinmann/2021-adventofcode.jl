@@ -16,4 +16,23 @@ for idx in 1:size(df)[1]
     end
 end
 
-println("The product is ", horz_pos*vert_pos)
+println("The product is ", horz_pos * vert_pos)
+
+# Altered commands
+# What do you get if you multiply your final horizontal position by your final depth?
+
+horz_pos_2 = 0
+vert_pos_2 = 0
+aim = 0
+for idx in 1:size(df)[1]
+    if df[idx, :Column1] == "forward"
+        horz_pos_2 += df[idx, :Column2]
+        vert_pos_2 += (aim * df[idx, :Column2])
+    elseif df[idx, :Column1] == "down"
+        aim += df[idx, :Column2]
+    elseif df[idx, :Column1] == "up"
+        aim -= df[idx, :Column2]
+    end
+end
+
+println("The product is ", horz_pos_2 * vert_pos_2)
