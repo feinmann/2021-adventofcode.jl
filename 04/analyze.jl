@@ -67,13 +67,13 @@ for number in vector_of_numbers
         println("We have a row winner after number $number.")
         println("The rest-sum is ", iter_mat[:, :, row_winner[3]] |> sumfinite)
         println(row_winner)
-        iter_mat[:, :, row_winner[3]] = replace!(x -> -1, iter_mat[:, :, row_winner[3]]) # replace winner board with -1's; WTF: replace! not working?
+        iter_mat[:, :, row_winner[3]] .= -1 # replace winner board with -1's
     end
     for col_winner in col_winners
         println("We have a col winner after number $number.")
         println("The rest-sum is ", iter_mat[:, :, col_winner[3]] |> sumfinite)
         println(col_winner)
-        iter_mat[:, :, col_winner[3]] = replace!(x -> -1, iter_mat[:, :, col_winner[3]]) # replace winner board with -1's
+        iter_mat[:, :, col_winner[3]] .= -1 # replace winner board with -1's
     end
 end
 
