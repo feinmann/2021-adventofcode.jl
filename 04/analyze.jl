@@ -48,3 +48,35 @@ end
 # CartesianIndex{3}[CartesianIndex(3, 1, 84)]
 iter_mat[:, :, 84] |> sumfinite
 print(668 * 66)
+
+
+# Solution for star 2:
+# https://adventofcode.com/2021/day/4#part2
+
+# Strategy: play to the end and inspect the last board that was winning
+
+iter_mat = copy(mat)
+for number in vector_of_numbers
+    println(number)
+    replace!(iter_mat, number => NaN)
+    row_sums_mat = sumfinite(iter_mat, dims=2)
+    col_sums_mat = sumfinite(iter_mat, dims=1) # returns zero if all elements are NaN! (ARGH)
+    row_winners = findall( x -> x == 0, row_sums_mat )
+    col_winners = findall( x -> x == 0, col_sums_mat )
+    for row_winner in row_winners
+        println("We have a row winner after number $number.")
+        println("The rest-sum is ", iter_mat[:, :, row_winner[3]] |> sumfinite)
+        println(row_winner)
+        iter_mat[:, :, row_winner[3]] = replace!(x -> -1, iter_mat[:, :, row_winner[3]]) # replace winner board with -1's; WTF: replace! not working?
+    end
+    for col_winner in col_winners
+        println("We have a col winner after number $number.")
+        println("The rest-sum is ", iter_mat[:, :, col_winner[3]] |> sumfinite)
+        println(col_winner)
+        iter_mat[:, :, col_winner[3]] = replace!(x -> -1, iter_mat[:, :, col_winner[3]]) # replace winner board with -1's
+    end
+end
+
+# The last board winning is number 10 with a rest-sum of 263 after the number 90 
+# W T FFFFFFF
+# ->>> solution is 90 * 263 = 23670
