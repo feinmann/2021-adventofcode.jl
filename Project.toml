@@ -1,3 +1,5 @@
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
