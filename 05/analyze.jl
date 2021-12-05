@@ -15,30 +15,54 @@ function parse_lines()
     line_coords
 end
 
-line_coords = parse_lines()
-board = zeros(Int8, 1000, 1000)
-
-function place_line(line_coordinates, board)
-    
+function place_line(line_coordinates, board, consider_diagonals=false)
     for line in line_coordinates
+        println("Line: $line")
+        reverse_x = false
+        reverse_y = false
         x1, y1 = line[1] 
         x2, y2 = line[2]
         x1 += 1; x2 += 1; y1 += 1; y2 += 1;
         if x1 > x2
             x2, x1 = x1, x2
+            reverse_x = true
         end
         if y1 > y2
             y2, y1 = y1, y2
+            reverse_y = true
         end
         # consider only vertical or horizontal lines
         if x1 == x2 || y1 == y2
             board[y1:y2, x1:x2] .+= 1
-        else
-            println("($x1,$y1) -> ($x2, $y2) not horizontal")
+        else # this is handling the diagonal case for star #2
+            if consider_diagonals
+                if reverse_x && reverse_y
+                    for line_points in zip(reverse(x1:x2), reverse(y1:y2))
+                        board[line_points[2], line_points[1]] += 1
+                    end
+                elseif reverse_x
+                    for line_points in zip(reverse(x1:x2), y1:y2)
+                        board[line_points[2], line_points[1]] += 1
+                    end
+                elseif reverse_y
+                    for line_points in zip(x1:x2, reverse(y1:y2))
+                        board[line_points[2], line_points[1]] += 1
+                    end
+                else
+                    for line_points in zip(x1:x2, y1:y2)
+                        board[line_points[2], line_points[1]] += 1
+                    end
+                end
+            end
         end
     end
     board
 end
 
-my_board = place_line(line_coords, board)
-println(count(i->(i > 1), my_board))
+line_coords = parse_lines()
+
+without_diagonals = place_line(line_coords, zeros(Int8, 1000, 1000))
+with_diagonals = place_line(line_coords, zeros(Int8, 1000, 1000), true)
+
+println(count(i->(i > 1), without_diagonals))
+println(count(i->(i > 1), with_diagonals))
