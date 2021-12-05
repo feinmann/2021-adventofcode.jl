@@ -5,7 +5,7 @@ function read_input_data()
     open("04/input.txt") do file
         for ln in eachline(file)
             if length(ln) > 14
-                vector_of_numbers = parse.(Int, split(ln, ","))
+                global vector_of_numbers = parse.(Int, split(ln, ","))
             end
             
             if length(ln) == 14
@@ -48,9 +48,10 @@ function get_first_winner_board(iter_mat, vector_of_numbers)
             break
         end
     end # before: 101.725 ms (3108 allocations: 72.99 MiB)
+    iter_mat
 end
 
-get_first_winner_board(copy(mat), vector_of_numbers) # 536.937 μs (649 allocations: 505.11 KiB)
+iter_mat = get_first_winner_board(copy(mat), vector_of_numbers); # 536.937 μs (649 allocations: 505.11 KiB)
 
 # We have a row winner after number 66.
 # CartesianIndex{3}[CartesianIndex(3, 1, 84)]
@@ -86,7 +87,7 @@ function get_last_winnerboard(iter_mat)
     end # before: 1.665 ms (2908 allocations: 1.70 MiB)
 end
 
-@btime get_last_winnerboard(copy(mat)) # oh oh: 6.585 ms (9662 allocations: 1.99 MiB)
+get_last_winnerboard(copy(mat)) # oh oh: 6.585 ms (9662 allocations: 1.99 MiB)
 
 # The last board winning is number 10 with a rest-sum of 263 after the number 90 
 # W T FFFFFFF
