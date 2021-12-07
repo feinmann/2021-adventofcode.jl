@@ -17,10 +17,50 @@ function one_day(input)
     input
 end
 
-puzzle_input = read_input()
-
-for days in 1:80
-    one_day(puzzle_input)
+function grow_fish(fish_crowd, days)
+    for day in 1:days
+        one_day(fish_crowd)
+    end
+    fish_crowd
 end
 
-println(length(puzzle_input))
+function grow_fish_crowd(days, input)
+    output_crowd = copy(input)
+    for day in 1:days
+        one_day(output_crowd)
+    end
+    length(output_crowd)
+end
+
+puzzle_input = read_input()
+
+function iterate_thru_swarm(swarm, days)
+    number_of_fish = 0
+    for fish in swarm
+        number_of_fish += grow_fish_crowd(days, Int8[fish])
+    end
+    number_of_fish
+end
+
+days_for_the_puzzle = 80
+
+swarm_delta_1 = iterate_thru_swarm(1, days_for_the_puzzle)
+swarm_delta_2 = iterate_thru_swarm(2, days_for_the_puzzle)
+swarm_delta_3 = iterate_thru_swarm(3, days_for_the_puzzle)
+swarm_delta_4 = iterate_thru_swarm(4, days_for_the_puzzle)
+swarm_delta_5 = iterate_thru_swarm(5, days_for_the_puzzle)
+
+my_values_to_solve_this_challenging_riddle = [
+    swarm_delta_1, 
+    swarm_delta_2,
+    swarm_delta_3, 
+    swarm_delta_4, 
+    swarm_delta_5
+    ]
+
+total = 0
+for fish in puzzle_input
+    total += my_values_to_solve_this_challenging_riddle[fish] 
+end
+
+println(total)
