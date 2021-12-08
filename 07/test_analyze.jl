@@ -20,4 +20,25 @@ function calculate_fuel_consumptions(input)
     fuel_consumptions
 end
 
+function calculate_fuel_consumptions_2(input)
+    # for every _possible_ position, calculate the fuelconsumption from every other position
+    fuel_consumptions = zeros(Int, maximum(puzzle_input))
+    for from in 1:maximum(puzzle_input)
+        consumptions_tmp = zeros(Int, length(input))
+        for to_idx in 1:length(input)
+            number_of_steps = abs(input[to_idx] - from)
+            consumptions_tmp[to_idx] = sum(1:number_of_steps)
+        end
+        fuel_consumptions[from] = sum(consumptions_tmp)
+    end
+    fuel_consumptions
+end
+
 result = calculate_fuel_consumptions(puzzle_input)
+println("The least fuel consumption is ", minimum(result))
+
+result_2 = calculate_fuel_consumptions_2(puzzle_input)
+println("The least fuel consumption is ", findmin(result_2)[1], 
+        " when switching to horizontal position ", findmin(result_2)[2], ".")
+
+
